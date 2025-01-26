@@ -12,9 +12,12 @@ class FaissConstructor:
         self.index = faiss.IndexFlatL2(384)
 
 
-    def add_vector_to_index(self, embedding):
+    def add_vector_to_index(self, embeddings):
+        """
+            embeddings vector를 정규화해서 self.index에 추가함.
+        """
         # Convert to float32 numpy
-        vector = np.float32(embedding)
+        vector = np.float32(embeddings)
 
         # Normalize vector: important to avoid wrong results when searching
         faiss.normalize_L2(vector)
@@ -23,7 +26,7 @@ class FaissConstructor:
         self.index.add(vector)
 
 
-    def extract_embeddings(self, images):
+    def extract_embeddings(self, images: list):
         for image_path in images:
             with torch.no_grad():
                 preprocessed_image = preprocess_input_data(image_path)
@@ -37,6 +40,7 @@ class FaissConstructor:
 
 
     def search_k_similar_images(self, vector_index, input_image, k=1):
+        # index 파일 불러오기
         index = faiss.read_index(vector_index)
 
         # OpenClip에서 추출된 이미지를 dinov2 모델에 입력 가능한 형태로 변환하여 임베딩 계산
@@ -45,16 +49,17 @@ class FaissConstructor:
         # FAISS 검색 수행
         distances, indices = index.search(input_image_embeddings, k)
 
-        print(distances, indices)
+        # 결과 테스트
+        print("distance: ", distances[0][0], " indices: ", indices[0][0])
         return
         
 
 
 if __name__ == "__main__":
+    IMAGE_PATH = ['/home/baesik/24Winter_OOP_AI_Agent/data/cat10.jpg']
     dinov2 = DINOV2()
     dinov2.load_model('vits14')
     fc = FaissConstructor(dinov2)
-    IMAGE_PATH = ['/home/baesik/24Winter_OOP_AI_Agent/data/cat10.jpg']
     fc.extract_embeddings(IMAGE_PATH)
     fc.write_index("vector.index")
 

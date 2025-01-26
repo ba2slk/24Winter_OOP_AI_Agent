@@ -24,6 +24,7 @@ class DINOV2(BaseModel):
 
         use_register = use_register
 
+
         # 예를 들어, self.mode_name이 "vitb14"라면 model_scale은 "b"임. 
         model_scale = self._parse_model_scale()
         models = {
@@ -32,6 +33,7 @@ class DINOV2(BaseModel):
             "l": vit_large,
             "g": vit_giant2,
         }
+
 
         # 사용자가 원하는 모델 스케일에 해당하는 모델 아키텍쳐를 self.model에 할당함.
         try:
@@ -46,7 +48,8 @@ class DINOV2(BaseModel):
             print(f"[KeyError {e}] Please check supproted models: vitb14, vits14, vitl14, vitg14")
             exit(-1)
             
-        # Pretrained 된 .pth 파일 가져와서 self.model에 적용함.
+
+        # Pretrained 된 .pth 파일 가져와서 self.model에 적용.
         try:
             # register가 사용된 모델을 사용할지 여부 결정
             if use_register:
@@ -65,6 +68,8 @@ class DINOV2(BaseModel):
             print(f"Failed to load the model due to a runtime error: {e}")
             exit(-1)
 
+
+        # 모델을 평가 모드로 전환
         self.model.eval()
 
 
@@ -95,6 +100,6 @@ if __name__ == "__main__":
     IMAGE_PATH = '/home/baesik/24Winter_OOP_AI_Agent/data/cat10.jpg'
     dinov2 = DINOV2()
     dinov2.load_model('vits14')
-
     image = preprocess_input_data(IMAGE_PATH)
     embedding_results = dinov2.compute_embeddings(image)
+    print(embedding_results)
