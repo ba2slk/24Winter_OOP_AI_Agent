@@ -1,4 +1,3 @@
-from base_model import BaseModel
 import torch
 from PIL import Image
 import os
@@ -6,8 +5,10 @@ import torchvision.transforms as T
 import numpy as np
 from typing import List
 
-from dinov2.models.vision_transformer import vit_base, vit_small, vit_large, vit_giant2, DinoVisionTransformer
+# from dinov2.models.vision_transformer import vit_base, vit_small, vit_large, vit_giant2, DinoVisionTransformer # 333
+from your_models.dinov2.models.vision_transformer import vit_base, vit_small, vit_large, vit_giant2, DinoVisionTransformer
 
+from .base_model import BaseModel
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 
