@@ -69,7 +69,7 @@
             <button type="submit">검색</button>
         </form>
         <div class="image-container" id="imageContainer">
-            <img src=" {{ result_image }} " alt="" >
+            <img src=" {{ url_for('static', filename=result_image) }} " alt="{{ result_image }}" >
         </div>
     </div>
 
