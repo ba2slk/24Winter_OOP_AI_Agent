@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Reinforced Image Search with OpenCLIP X DINOv2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #4CAF50;
+            color: white;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .image-container {
+            margin-top: 20px;
+            width: 100%;
+            height: 400px;
+            border: 2px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reinforced Image Search</h1><br>
+        <h2>with OpenCLIP X DINOv2</h2>
+        <form method="POST">
+            <input type="text" name="query" placeholder="검색어를 입력하세요" required>
+            <button type="submit">검색</button>
+        </form>
+        <div class="image-container" id="imageContainer">
+            <img src=" {{ result_image }} " alt="" >
+        </div>
+    </div>
+
+    <!-- <script>
+        function submitSearch() {
+            const query = document.getElementById('searchQuery').value;
+            const imageContainer = document.getElementById('imageContainer');
+
+            if (query.trim() === '') {
+                alert('검색어를 입력해주세요.');
+                return;
+            }
+
+            // 서버에 요청하여 검색어에 맞는 이미지를 받아오는 코드 (예시)
+            // 실제로는 AJAX 또는 Fetch API를 사용하여 서버에서 이미지를 가져올 수 있음
+            const imageUrl = `https://via.placeholder.com/600x400.png?text=${encodeURIComponent(query)}`;
+
+            // 이미지 표시
+            const imgElement = document.createElement('img');
+            imgElement.src = imageUrl;
+            imgElement.alt = query;
+            imageContainer.innerHTML = ''; // 기존 이미지를 제거
+            imageContainer.appendChild(imgElement);
+        }
+    </script> -->
+</body>
+</html>
