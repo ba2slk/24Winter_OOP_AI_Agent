@@ -65,7 +65,7 @@ class OpenCLIP(BaseModel):
         # print(f"image_dir : {image_dir}")
 
         # 테스트: 일부 이미지만 로드
-        for file in os.listdir(image_dir)[:20]:
+        for file in os.listdir(image_dir)[:10]:
             filename = os.fsdecode(file)
             if filename.endswith(".jpg") or filename.endswith(".JPEG"): 
                 image = self.preprocess_image(os.path.join(image_source, filename))

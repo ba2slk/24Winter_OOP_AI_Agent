@@ -94,17 +94,23 @@ class DINOV2(BaseModel):
 
     def _load_data(self, image_path) -> List[Image.Image]:
         all_images = []
+        
+        # image_path가 디렉토리가 아니라 단일 파일인 경우
+        if not os.path.isdir(image_path):
+            image = Image.open(image_path)
+            all_images.append(image)
 
-        image_dir = os.fsencode(image_path)
+        else: 
+            image_dir = os.fsencode(image_path)
 
-        # 테스트를 위해서 10개의 이미지만 로드함. 추후 변경
-        for file in os.listdir(image_dir)[:10]:
-            filename = os.fsdecode(file)
-            if filename.endswith(".jpg") or filename.endswith(".JPEG"): 
-                image = Image.open(os.path.join(image_path, filename))
-                all_images.append(image)
-            else:
-                continue
+            # 테스트를 위해서 10개의 이미지만 로드함. 추후 변경
+            for file in os.listdir(image_dir)[:10]:
+                filename = os.fsdecode(file)
+                if filename.endswith(".jpg") or filename.endswith(".JPEG"): 
+                    image = Image.open(os.path.join(image_path, filename))
+                    all_images.append(image)
+                else:
+                    continue
 
         return all_images
 
