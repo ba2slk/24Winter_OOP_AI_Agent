@@ -15,7 +15,7 @@ def generate_image_index(image_path, image_index_path):
     for i in range(len(image_files)):
         filename = os.fsdecode(image_files[i])
         if filename.endswith(".jpg") or filename.endswith(".JPEG"):
-            index_result[i] = os.path.realpath(filename)
+            index_result[i] = filename 
 
     with open(image_index_path, 'w') as json_file:
         json.dump(index_result, json_file, indent=4)
