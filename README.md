@@ -114,7 +114,7 @@ image_index = dinov2_fc.search_k_similar_images(INDEX_PATH, openclip_result_imag
 
  이 예시 프로젝트는 사용자가 입력한 검색어 텍스트에 대해 OpenCLIP으로 텍스트 임베딩을 생성하고, 이를 기반으로 벡터 DB에서 가장 유사한 이미지를 검색합니다. 이후 DINOv2를 거쳐 검색된 이미지에 대한 고품질 특징 벡터를 추출한 다음, 이미지 유사도 검색을 수행하여 최종적으로 검색된 이미지를 제공합니다.
 
-![[24Winter_OOP_AI_Agent_Demo.gif]]
+![24Winter_OOP_AI_Agent_Demo](https://github.com/user-attachments/assets/a0c4f8da-1b67-4983-bd2e-d5ac926e067b)
 🔼 사전 훈련된 DINOv2와 OpenCLIP을 활용한 이미지 검색 파이프라인 구현 예시
 
 ---
