@@ -19,6 +19,8 @@ def generate_image_index(image_path, image_index_path):
 
     with open(image_index_path, 'w') as json_file:
         json.dump(index_result, json_file, indent=4)
+
+    print("Successfully created image_index.json")
         
 
 def get_image_path_by_index(index, image_index_path):
