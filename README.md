@@ -127,3 +127,11 @@ EasyViT로 여러분만의 ViT 기반 딥러닝 프로젝트를 손쉽게 완성
 EasyViT는 아래 두 논문의 모델들의 구현을 포함하고 있습니다.
 - [Reproducible scaling laws for contrastive language-image learning](https://arxiv.org/abs/2212.07143)
 - [DINOv2: Learning Robust Visual Features without Supervision](https://arxiv.org/abs/2304.07193)
+
+---
+## Members
+- 배승식
+- 최가은
+- 이수연
+- 문유정
+- 유서우
