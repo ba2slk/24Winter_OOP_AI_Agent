@@ -40,7 +40,7 @@ dinov2 = DINOV2()
 dinov2.load_model('vits14', use_pretrained=True)
 
 # dinov2 이미지 전처리
-preprocessed_images = dinov2.preprocess_input_data(IMAGE_PATH)
+preprocessed_images = dinov2.preprocess_image(IMAGE_PATH)
 
 # 전처리된 이미지 각각의 임베딩 생성
 embedding_results = dinov2.compute_embeddings(preprocessed_images)
