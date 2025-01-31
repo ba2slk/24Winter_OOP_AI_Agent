@@ -104,7 +104,7 @@ class DINOV2(BaseModel):
             image_dir = os.fsencode(image_path)
 
             # 테스트를 위해서 10개의 이미지만 로드함. 추후 변경
-            for file in os.listdir(image_dir)[:10]:
+            for file in os.listdir(image_dir)[:1000]:
                 filename = os.fsdecode(file)
                 if filename.endswith(".jpg") or filename.endswith(".JPEG"): 
                     image = Image.open(os.path.join(image_path, filename))
@@ -116,7 +116,7 @@ class DINOV2(BaseModel):
 
         
     # dinov2 모델에 호환되는 input 형태로 이미지 가공
-    def preprocess_input_data(self, image_path):
+    def preprocess_image(self, image_path):
         all_transfomred_images = []
 
         # 이미지 데이터 로드
@@ -136,7 +136,7 @@ if __name__ == "__main__":
     IMAGE_PATH = os.path.join(script_path, "../data/flickr30k/Images")
     dinov2 = DINOV2()
     dinov2.load_model('vits14')
-    images = dinov2.preprocess_input_data(IMAGE_PATH)
+    images = dinov2.preprocess_image(IMAGE_PATH)
     # for i in images:
     #     print(i.shape)
     embedding_results = dinov2.compute_embeddings(images)

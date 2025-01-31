@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
     dinov2 = DINOV2()
     dinov2.load_model('vits14')
-    images = dinov2.preprocess_input_data(IMAGE_PATH)
+    images = dinov2.preprocess_image(IMAGE_PATH)
     embedding_results = dinov2.compute_embeddings(images)
 
     fc = FaissConstructor(dinov2)

@@ -9,6 +9,9 @@ class BaseModel:
     def load_model(self, image_source):
         pass
 
+    @abstractmethod
+    def preprocess_image(self, image_source):
+        pass
 
 
 
