@@ -20,7 +20,7 @@ def add_project_paths():
 add_project_paths()
 
 from your_models.openclip_class import OpenCLIP
-# from your_models.dinov2_class import DINOV2
+from your_models.dinov2_class import DINOV2
 from your_models.faiss_constructor import FaissConstructor, OpenCLIPConstructor
 from src.index import generate_image_index, get_image_path_by_index
 
@@ -38,38 +38,37 @@ IMAGE_INDEX_PATH = os.path.join(SCRIPT_PATH, "image_index.json")
 generate_image_index(IMAGE_PATH, IMAGE_INDEX_PATH)
 
 
-# # dinov2 사전 훈련 모델 로드
-# dinov2 = DINOV2()
-# dinov2.load_model('vits14', use_pretrained=True)
+# dinov2 사전 훈련 모델 로드
+dinov2 = DINOV2()
+dinov2.load_model('vits14', use_pretrained=True)
 
-# # dinov2 이미지 전처리
-# preprocessed_images = dinov2.preprocess_input_data(IMAGE_PATH)
+# dinov2 이미지 전처리
+preprocessed_images = dinov2.preprocess_input_data(IMAGE_PATH)
 
-# # 전처리된 이미지 각각의 임베딩 생성
-# embedding_results = dinov2.compute_embeddings(preprocessed_images)
-
+# 전처리된 이미지 각각의 임베딩 생성
+embedding_results = dinov2.compute_embeddings(preprocessed_images)
 
 # # dinov2.index 생성
-# dinov2_fc = FaissConstructor(dinov2)
-# dinov2_fc.add_vector_to_index(embedding_results)
-# dinov2_fc.write_index("dinov2.index")
+dinov2_fc = FaissConstructor(dinov2)
+dinov2_fc.add_vector_to_index(embedding_results)
+dinov2_fc.write_index("dinov2.index")
 
-#------------채워야 하는 부분------------
+
 # OpenCLIP 사전 훈련 모델 로드
 openclip = OpenCLIP()
 openclip.load_model()
 
 # 이미지 & 캡션 파일 전처리
 # caption = ["a child pushing a stroller"]
-caption = ['a man wearing red shirt']
+caption = ['food']
 text_embedding = openclip.preprocess_text(caption)
 text_embedding = openclip.inference(openclip.model, text=text_embedding)
 
-# 임베딩 생성
+# # 임베딩 생성
 openclip_images = openclip.preprocess_image_data(IMAGE_PATH)
 openclip_image_embeddings = openclip.compute_image_embeddings(openclip_images)
 
-# openclip.index 생성
+# # openclip.index 생성
 openclip_fc = OpenCLIPConstructor(openclip)
 openclip_fc.add_vector_to_index(openclip_image_embeddings)
 openclip_fc.write_index("openclip.index")
@@ -79,19 +78,18 @@ text_embeddings = openclip_fc.fix_embedding_type(text_embedding)
 
 # 사용자가 입력한 검색어(text)의 의미와 가장 유사한 이미지 검색
 # 예시) openclip_result_image_path = openclip_fc.search(text)
-temp_result_image_path = os.path.join(SCRIPT_PATH, "data/val/") # 임시 코드
-openclip_result_image_index = openclip_fc.search(text_embeddings)
-print("* 결과 이미지 경로: ", temp_result_image_path)
-print("* 검색 결과 이미지 경로: ", openclip_result_image_index)
+openclip_result_image_index = str(openclip_fc.search(text_embeddings)[0][0])
+print(openclip_result_image_index)
+openclip_result_image_file = os.path.join(IMAGE_PATH, get_image_path_by_index(openclip_result_image_index, IMAGE_INDEX_PATH))
+print("OpenCLIP 검색 결과 이미지 경로: ", openclip_result_image_file)
 #--------------------------------------
 
 
 # OpenCLIP 이미지 검색을 통해 얻은 이미지 인덱스를 통해 얻은 이미지에 대해 dinov2로 유사한 이미지를 검색함.
-# image_index = dinov2_fc.search_k_similar_images(INDEX_PATH, input_image=openclip_result_image_path, k=1)
+image_index = dinov2_fc.search_k_similar_images(INDEX_PATH, input_image=openclip_result_image_file, k=3)
+print(image_index)
+dinov2_result_image_file = get_image_path_by_index(str(image_index[0][1]), image_index_path=IMAGE_INDEX_PATH)
 
-
-# dinov2_result_image_path = get_image_path_by_index(str(image_index[0][0]), image_index_path=IMAGE_INDEX_PATH)
-
-# print("------------------------------< Final Result >------------------------------")
-# print("Image index: ", image_index[0][0])
-# print("Searched image result: ", dinov2_result_image_path)
+print("------------------------------< Final Result >------------------------------")
+print("Image index: ", image_index[0][0])
+print("Searched image result: ", f"{IMAGE_PATH}/{dinov2_result_image_file}")
