@@ -24,7 +24,6 @@ from your_models.dinov2_class import DINOV2
 from your_models.faiss_constructor import FaissConstructor
 from src.index import generate_image_index, get_image_path_by_index
 
-
 # 기본 데이터 경로
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 IMAGE_PATH = os.path.join(SCRIPT_PATH, "data/flickr30k/Images")
@@ -35,7 +34,6 @@ IMAGE_INDEX_PATH = os.path.join(SCRIPT_PATH, "image_index.json")
 # 이미지 인덱스 파일 생성 (.json) 
 # e.g) {idx : image_file_path}
 generate_image_index(IMAGE_PATH, IMAGE_INDEX_PATH)
-
 
 # dinov2 사전 훈련 모델 로드
 dinov2 = DINOV2()
@@ -53,27 +51,29 @@ dinov2_fc = FaissConstructor(dinov2)
 dinov2_fc.add_vector_to_index(embedding_results)
 dinov2_fc.write_index("dinov2.index")
 
-#------------채워야 하는 부분------------
-# OpenCLIP 사전 훈련 모델 로드
 
-# 이미지 & 캡션 파일 전처리
+def search_image(input_query: str):
+    #------------채워야 하는 부분------------
+    # OpenCLIP 사전 훈련 모델 로드
 
-# 임베딩 생성
+    # 이미지 & 캡션 파일 전처리
 
-# openclip.index 생성
+    # 임베딩 생성
 
-# 사용자가 입력한 검색어(text)의 의미와 가장 유사한 이미지 검색
-# 예시) openclip_result_image_path = openclip_fc.search(text)
-openclip_result_image_path = os.path.join(SCRIPT_PATH, "data/val/") # 임시 코드
-#--------------------------------------
+    # openclip.index 생성
 
+    # 사용자가 입력한 검색어(text)의 의미와 가장 유사한 이미지 검색
+    # 예시) openclip_result_image_path = openclip_fc.search(text)
+    openclip_result_image_path = os.path.join(SCRIPT_PATH, "data/val/") # 임시 코드
+    #--------------------------------------
 
-# OpenCLIP 이미지 검색을 통해 얻은 이미지 인덱스를 통해 얻은 이미지에 대해 dinov2로 유사한 이미지를 검색함.
-image_index = dinov2_fc.search_k_similar_images(INDEX_PATH, input_image=openclip_result_image_path, k=1)
+    # OpenCLIP 이미지 검색을 통해 얻은 이미지 인덱스를 통해 얻은 이미지에 대해 dinov2로 유사한 이미지를 검색함.
+    image_index = dinov2_fc.search_k_similar_images(INDEX_PATH, input_image=openclip_result_image_path, k=1)
+    
+    dinov2_result_image_path = get_image_path_by_index(str(image_index[0][0]), image_index_path=IMAGE_INDEX_PATH)
 
+    return dinov2_result_image_path
 
-dinov2_result_image_path = get_image_path_by_index(str(image_index[0][0]), image_index_path=IMAGE_INDEX_PATH)
-
-print("------------------------------< Final Result >------------------------------")
-print("Image index: ", image_index[0][0])
-print("Searched image result: ", dinov2_result_image_path)
+    # print("------------------------------< Final Result >------------------------------")
+    # print("Image index: ", image_index[0][0])
+    # print("Searched image result: ", dinov2_result_image_path)
