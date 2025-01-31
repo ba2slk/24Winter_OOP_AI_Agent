@@ -1,1 +1,1 @@
-from main import search_image
+from search_image import search_image
