@@ -9,7 +9,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 def generate_image_index(image_path, image_index_path):
     image_dir = os.fsencode(image_path)
     image_files = os.listdir(image_dir)
-    image_files = sorted(image_files, key=lambda x: os.fsdecode(x).lower())
+    # image_files = sorted(image_files, key=lambda x: os.fsdecode(x).lower())
     index_result = {}
     
     for i in range(len(image_files)):
