@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, url_for
 import os, sys
 
+SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
+
 
 def add_project_paths():
     """
@@ -17,10 +19,10 @@ def add_project_paths():
 
 add_project_paths()
 
-from main import search_image
+from search_image import search_image
 
 
-app = Flask(__name__, static_folder="/home/baesik/24Winter_OOP_AI_Agent/data/flickr30k/Images")
+app = Flask(__name__, static_folder=os.path.join(SCRIPT_PATH, "../data/flickr30k/Images"))
 
 @app.route('/', methods=["GET", "POST"])
 def searh_home():
@@ -29,6 +31,7 @@ def searh_home():
         search_query = request.form.get('query')
         print(search_query)
         result_image = search_image(search_query)
+        print(result_image)
 
     return render_template("index.html", result_image=result_image)
 
