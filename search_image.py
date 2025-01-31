@@ -1,6 +1,3 @@
-"""
-    모든 파이프라인을 결합한 데모 시연용 코드가 작성되는 곳
-"""
 import sys
 import os
 
@@ -44,24 +41,26 @@ openclip = OpenCLIP()
 openclip.load_model()
 
 # dinov2 이미지 전처리
-preprocessed_images = dinov2.preprocess_input_data(IMAGE_PATH)
+preprocessed_images = dinov2.preprocess_image(IMAGE_PATH)
 
 # 전처리된 이미지 각각의 임베딩 생성
 embedding_results = dinov2.compute_embeddings(preprocessed_images)
 
 # dinov2.index 생성
 dinov2_fc = FaissConstructor(dinov2)
-dinov2_fc.add_vector_to_index(embedding_results)
-dinov2_fc.write_index("dinov2.index")
+if not os.path.exists("dinov2.index"): 
+    dinov2_fc.add_vector_to_index(embedding_results)
+    dinov2_fc.write_index("dinov2.index")
 
 # 임베딩 생성
 openclip_images = openclip.preprocess_image_data(IMAGE_PATH)
 openclip_image_embeddings = openclip.compute_image_embeddings(openclip_images)
 
 # openclip.index 생성
-openclip_fc = OpenCLIPConstructor(openclip)
-openclip_fc.add_vector_to_index(openclip_image_embeddings)
-openclip_fc.write_index("openclip.index")
+if not os.path.exists("openclip.index"): 
+    openclip_fc = OpenCLIPConstructor(openclip)
+    openclip_fc.add_vector_to_index(openclip_image_embeddings)
+    openclip_fc.write_index("openclip.index")
 
 # 이미지 & 캡션 파일 전처리
 # caption = ["a child pushing a stroller"]
