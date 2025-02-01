@@ -1,4 +1,4 @@
-# EasyViT: PyTorch 기반 Vision Transformer 모델 활용 프레임워크
+# EasyViT: ViT 모델을 쉽고 빠르게 적용하는 PyTorch 기반 프레임워크
 ---
 ## Welcome to EasyViT
 EasyVIT는 범용적이고 직관적인 메서드를 기반으로, 사전 훈련된 ViT(Vision Transformer) 모델을 손쉽게 자신의 프로젝트에 적용할 수 있도록 돕는 프레임워크입니다. 
